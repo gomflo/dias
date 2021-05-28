@@ -1,82 +1,44 @@
-import Head from 'next/head'
+import Layout from '@/components/Layout'
+import Examples from '@/components/Examples'
+import dayjs from '@/utils/dayjs'
+import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
+  const { register, handleSubmit } = useForm()
+  const onSubmit = data => router.push(data.date)
+
+  const tomorrow = dayjs().add(1, 'day').format('YYYY-MM-DD')
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout>
+      <div className="max-w-xl">
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
+          {/* <h1 className="text-2xl text-center text-gray-800 font-semibold uppercase">Elije una fecha</h1> */}
 
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
+          <div className="flex justify-center space-x-3">
+            <div>
+              <label htmlFor="date" className="sr-only">Día</label>
+              <input {...register("date")} id="date" type="date" defaultValue={tomorrow} className="w-full" />
+            </div>
 
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
+            <button className="bg-indigo-800 text-white font-semibold px-3">Continuar</button>
+          </div>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+          <div className="mt-3">
+            <Examples />
+          </div>
+        </form>
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
+        {/* <h1 className="mt-28 text-xl text-center font-semibold">Calcula cuantos días faltan ó cuantos días han transcurrido</h1>
+        <div className="mt-3 text-gray-800 text-center">
+          Herramienta que te permite calcular cuantos días faltan ó cuantos días han transcurrido a partir de una fecha en particular, por ejemplo la puedes utilizar para saber cuanto tiempo falta para tu cumpleaños, cuantos días faltan para Navidad o alguna fecha importante.
+        </div> */}
+      </div>
+    </Layout>
   )
 }
